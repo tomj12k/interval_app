@@ -9,8 +9,7 @@ struct WorkoutSetupView: View {
     @State private var restSeconds: Double = 10
 
     @State private var planResult: Result<[WorkoutPhase], PlanBuildError>?
-    @State private var currentPlan: [WorkoutPhase] = []
-    @State private var isWorkoutPresented = false
+    @State private var presentedWorkout: PresentedWorkout?
 
     var body: some View {
         NavigationStack {
@@ -44,8 +43,8 @@ struct WorkoutSetupView: View {
             .onChange(of: cooldownMinutes) { _, _ in rebuildPlan() }
             .onChange(of: workSeconds) { _, _ in rebuildPlan() }
             .onChange(of: restSeconds) { _, _ in rebuildPlan() }
-            .fullScreenCover(isPresented: $isWorkoutPresented) {
-                ActiveWorkoutView(phases: currentPlan)
+            .fullScreenCover(item: $presentedWorkout) { workout in
+                ActiveWorkoutView(phases: workout.phases)
             }
         }
     }
@@ -97,12 +96,21 @@ struct WorkoutSetupView: View {
 
     private func buildAndStart() {
         guard case .success(let phases) = planResult else { return }
-        currentPlan = phases
-        isWorkoutPresented = true
+        presentedWorkout = PresentedWorkout(phases: phases)
     }
 
     private func formatted(_ duration: TimeInterval) -> String {
         let total = Int(duration.rounded())
         return String(format: "%d:%02d", total / 60, total % 60)
     }
+}
+
+/// Wraps a built phase list so it can drive item-based sheet presentation.
+/// Carrying the data directly in the presented item (rather than a separate
+/// boolean flag plus mutable state the cover's content closure reads) guarantees
+/// `ActiveWorkoutView` is always constructed with the phases that triggered
+/// presentation — never a stale snapshot from before the plan was built.
+private struct PresentedWorkout: Identifiable {
+    let id = UUID()
+    let phases: [WorkoutPhase]
 }
