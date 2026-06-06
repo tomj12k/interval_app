@@ -8,10 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		346311542FD4D94A007059E1 /* IntervalKit in Frameworks */ = {isa = PBXBuildFile; productRef = 346311532FD4D94A007059E1 /* IntervalKit */; };
+		3463116C2FD4E615007059E1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3463116B2FD4E615007059E1 /* WidgetKit.framework */; };
+		3463116E2FD4E615007059E1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3463116D2FD4E615007059E1 /* SwiftUI.framework */; };
+		3463117D2FD4E616007059E1 /* IntervalWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 346311692FD4E615007059E1 /* IntervalWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3463117B2FD4E616007059E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3463113C2FD4D63C007059E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 346311682FD4E615007059E1;
+			remoteInfo = IntervalWidgetExtensionExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		346311822FD4E616007059E1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3463117D2FD4E616007059E1 /* IntervalWidgetExtensionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		346311442FD4D63C007059E1 /* IntervalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntervalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		346311692FD4E615007059E1 /* IntervalWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = IntervalWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3463116B2FD4E615007059E1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		3463116D2FD4E615007059E1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -22,6 +52,20 @@
 			);
 			target = 346311432FD4D63C007059E1 /* IntervalApp */;
 		};
+		346311812FD4E616007059E1 /* Exceptions for "IntervalWidgetExtension" folder in "IntervalWidgetExtensionExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 346311682FD4E615007059E1 /* IntervalWidgetExtensionExtension */;
+		};
+		346311872FD4E797007059E1 /* Exceptions for "IntervalApp" folder in "IntervalWidgetExtensionExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/WorkoutActivityAttributes.swift,
+			);
+			target = 346311682FD4E615007059E1 /* IntervalWidgetExtensionExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -29,8 +73,17 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				346311562FD4E021007059E1 /* Exceptions for "IntervalApp" folder in "IntervalApp" target */,
+				346311872FD4E797007059E1 /* Exceptions for "IntervalApp" folder in "IntervalWidgetExtensionExtension" target */,
 			);
 			path = IntervalApp;
+			sourceTree = "<group>";
+		};
+		3463116F2FD4E615007059E1 /* IntervalWidgetExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				346311812FD4E616007059E1 /* Exceptions for "IntervalWidgetExtension" folder in "IntervalWidgetExtensionExtension" target */,
+			);
+			path = IntervalWidgetExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +97,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		346311662FD4E615007059E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3463116E2FD4E615007059E1 /* SwiftUI.framework in Frameworks */,
+				3463116C2FD4E615007059E1 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				346311462FD4D63C007059E1 /* IntervalApp */,
+				3463116F2FD4E615007059E1 /* IntervalWidgetExtension */,
+				3463116A2FD4E615007059E1 /* Frameworks */,
 				346311452FD4D63C007059E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,8 +123,18 @@
 			isa = PBXGroup;
 			children = (
 				346311442FD4D63C007059E1 /* IntervalApp.app */,
+				346311692FD4E615007059E1 /* IntervalWidgetExtensionExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3463116A2FD4E615007059E1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3463116B2FD4E615007059E1 /* WidgetKit.framework */,
+				3463116D2FD4E615007059E1 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -73,10 +147,12 @@
 				346311402FD4D63C007059E1 /* Sources */,
 				346311412FD4D63C007059E1 /* Frameworks */,
 				346311422FD4D63C007059E1 /* Resources */,
+				346311822FD4E616007059E1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3463117C2FD4E616007059E1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				346311462FD4D63C007059E1 /* IntervalApp */,
@@ -89,6 +165,28 @@
 			productReference = 346311442FD4D63C007059E1 /* IntervalApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		346311682FD4E615007059E1 /* IntervalWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3463117E2FD4E616007059E1 /* Build configuration list for PBXNativeTarget "IntervalWidgetExtensionExtension" */;
+			buildPhases = (
+				346311652FD4E615007059E1 /* Sources */,
+				346311662FD4E615007059E1 /* Frameworks */,
+				346311672FD4E615007059E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3463116F2FD4E615007059E1 /* IntervalWidgetExtension */,
+			);
+			name = IntervalWidgetExtensionExtension;
+			packageProductDependencies = (
+			);
+			productName = IntervalWidgetExtensionExtension;
+			productReference = 346311692FD4E615007059E1 /* IntervalWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -100,6 +198,9 @@
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					346311432FD4D63C007059E1 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					346311682FD4E615007059E1 = {
 						CreatedOnToolsVersion = 26.4;
 					};
 				};
@@ -122,12 +223,20 @@
 			projectRoot = "";
 			targets = (
 				346311432FD4D63C007059E1 /* IntervalApp */,
+				346311682FD4E615007059E1 /* IntervalWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		346311422FD4D63C007059E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		346311672FD4E615007059E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -144,7 +253,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		346311652FD4E615007059E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3463117C2FD4E616007059E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 346311682FD4E615007059E1 /* IntervalWidgetExtensionExtension */;
+			targetProxy = 3463117B2FD4E616007059E1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3463114D2FD4D63E007059E1 /* Debug */ = {
@@ -280,6 +404,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IntervalApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +440,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IntervalApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -331,6 +457,66 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3463117F2FD4E616007059E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5F3496XK86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IntervalWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = IntervalWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = BrushAndBinary.IntervalApp.IntervalWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		346311802FD4E616007059E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5F3496XK86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IntervalWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = IntervalWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = BrushAndBinary.IntervalApp.IntervalWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -355,6 +541,15 @@
 			buildConfigurations = (
 				346311502FD4D63E007059E1 /* Debug */,
 				346311512FD4D63E007059E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3463117E2FD4E616007059E1 /* Build configuration list for PBXNativeTarget "IntervalWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3463117F2FD4E616007059E1 /* Debug */,
+				346311802FD4E616007059E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -13,6 +13,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
 
     private let engine: WorkoutTimerEngine
     private let chimePlayer: ChimePlayer
+    private let activityController = WorkoutActivityController()
     private var ticker: AnyCancellable?
 
     init(phases: [WorkoutPhase], chimePlayer: ChimePlayer) {
@@ -28,6 +29,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
         try? chimePlayer.configureSessionForBackgroundPlayback()
         engine.start()
         isRunning = true
+        activityController.start(phase: engine.currentPhase, remaining: engine.remainingInPhase, roundLabel: roundLabel)
         startTicking()
     }
 
@@ -35,6 +37,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
         engine.pause()
         isRunning = false
         ticker?.cancel()
+        activityController.end()
     }
 
     private func startTicking() {
@@ -55,6 +58,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
             isRunning = false
             isFinished = true
             ticker?.cancel()
+            activityController.end()
         }
         refreshDisplay()
     }
@@ -69,6 +73,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
         } else {
             roundLabel = nil
         }
+        activityController.update(phase: phase, remaining: engine.remainingInPhase, roundLabel: roundLabel)
     }
 
     private static func format(_ duration: TimeInterval) -> String {
