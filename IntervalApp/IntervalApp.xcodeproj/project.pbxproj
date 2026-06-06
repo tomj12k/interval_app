@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		346311542FD4D94A007059E1 /* IntervalKit in Frameworks */ = {isa = PBXBuildFile; productRef = 346311532FD4D94A007059E1 /* IntervalKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		346311442FD4D63C007059E1 /* IntervalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntervalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				346311542FD4D94A007059E1 /* IntervalKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = IntervalApp;
 			packageProductDependencies = (
+				346311532FD4D94A007059E1 /* IntervalKit */,
 			);
 			productName = IntervalApp;
 			productReference = 346311442FD4D63C007059E1 /* IntervalApp.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 3463113B2FD4D63C007059E1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				346311522FD4D94A007059E1 /* XCLocalSwiftPackageReference "../IntervalKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 346311452FD4D63C007059E1 /* Products */;
 			projectDirPath = "";
@@ -336,6 +345,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		346311522FD4D94A007059E1 /* XCLocalSwiftPackageReference "../IntervalKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../IntervalKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		346311532FD4D94A007059E1 /* IntervalKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IntervalKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3463113C2FD4D63C007059E1 /* Project object */;
 }

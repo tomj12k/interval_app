@@ -62,41 +62,66 @@ swift package init --name IntervalKit --type library
 
 Expected output: `Creating library package: IntervalKit` plus a generated `Package.swift`, `Sources/IntervalKit/IntervalKit.swift`, and `Tests/IntervalKitTests/IntervalKitTests.swift`.
 
-- [ ] **Step 3: Edit `Package.swift` to target iOS 17 and Swift 6**
+- [x] **Step 3: Add the iOS 17 platform requirement to `Package.swift` — DONE**
 
-Replace the entire contents of `IntervalKit/Package.swift` with:
+`swift package init` on this machine generated tools-version `6.3` with `swiftLanguageModes: [.v6]` (matching the installed Swift 6.3 toolchain) — newer than the `6.0` header this plan originally specified, but compatible. Rather than downgrade it, a single `platforms: [.iOS(.v17)]` line was inserted into the generated `Package(...)` initializer (right after `name: "IntervalKit",`) so the package targets iOS 17+:
 
 ```swift
-// swift-tools-version: 6.0
+let package = Package(
+    name: "IntervalKit",
+    platforms: [.iOS(.v17)],
+    products: [
+```
+
+`IntervalKit/Package.swift` now reads in full:
+
+```swift
+// swift-tools-version: 6.3
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
 import PackageDescription
 
 let package = Package(
     name: "IntervalKit",
     platforms: [.iOS(.v17)],
     products: [
-        .library(name: "IntervalKit", targets: ["IntervalKit"])
+        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "IntervalKit",
+            targets: ["IntervalKit"]
+        ),
     ],
     targets: [
-        .target(name: "IntervalKit"),
-        .testTarget(name: "IntervalKitTests", dependencies: ["IntervalKit"])
-    ]
+        // Targets are the basic building blocks of a package, defining a module or a test suite.
+        // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "IntervalKit"
+        ),
+        .testTarget(
+            name: "IntervalKitTests",
+            dependencies: ["IntervalKit"]
+        ),
+    ],
+    swiftLanguageModes: [.v6]
 )
 ```
 
-- [ ] **Step 4: Run the generated placeholder tests to confirm the package builds**
+- [x] **Step 4: Run the generated placeholder tests to confirm the package builds — DONE**
 
 ```bash
 cd /Users/tomfisher/interval_app/IntervalKit
 swift test
 ```
 
-Expected: `Test Suite 'All tests' passed` (the generated placeholder test passes).
+Result: `Test Suite 'All tests' passed` and the Swift Testing runner reported `Test run with 1 test in 0 suites passed`.
 
-- [ ] **Step 5: Add `IntervalKit` as a local package dependency of the app (manual, in Xcode)**
+**Note for upcoming tasks:** `swift package init` on this Swift 6.3 toolchain generated `Tests/IntervalKitTests/IntervalKitTests.swift` using the newer **Swift Testing** framework (`import Testing`, `@Test func example()`), not XCTest. That placeholder file is left as-is. All of this plan's own test code (Tasks 2, 3, 4, 5) is written against **XCTest** (`import XCTest`, `XCTestCase`, `XCTAssertEqual`) — this is intentional and fine: XCTest and Swift Testing coexist in the same SPM test target, and a single `swift test` invocation runs both runners' suites together. Do not convert the plan's XCTest code to Swift Testing syntax, and do not delete the generated `IntervalKitTests.swift` placeholder — just add new files alongside it as each task directs.
+
+- [x] **Step 5: Add `IntervalKit` as a local package dependency of the app (manual, in Xcode) — DONE**
 
 In Xcode: select the `IntervalApp` project → **File → Add Package Dependencies… → Add Local…** → navigate to and select the `IntervalKit` folder → **Add Package** → make sure the `IntervalApp` target is checked when prompted to choose targets.
 
-- [ ] **Step 6: Verify the app target builds with the package linked**
+- [x] **Step 6: Verify the app target builds with the package linked — DONE (`** BUILD SUCCEEDED **`)**
 
 ```bash
 cd /Users/tomfisher/interval_app/IntervalApp
@@ -106,7 +131,7 @@ xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
 
 Expected: `** BUILD SUCCEEDED **`.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 7: Commit (next)**
 
 ```bash
 cd /Users/tomfisher/interval_app
