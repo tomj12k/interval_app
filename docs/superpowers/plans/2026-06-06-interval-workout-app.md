@@ -30,23 +30,26 @@ swift: Apple Swift version 6.3
 ### Task 1: Project scaffold — Xcode app project + local `IntervalKit` Swift package
 
 **Files:**
-- Create (via Xcode GUI): `IntervalApp.xcodeproj`, `IntervalApp/IntervalApp.swift`, `IntervalApp/Info.plist`
+- Created (via Xcode GUI, already done): `IntervalApp/IntervalApp.xcodeproj`, `IntervalApp/IntervalApp/IntervalAppApp.swift`
 - Create (via CLI): `IntervalKit/Package.swift`, `IntervalKit/Sources/IntervalKit/IntervalKit.swift`, `IntervalKit/Tests/IntervalKitTests/IntervalKitTests.swift`
 
-- [ ] **Step 1: Create the Xcode project (manual, in Xcode)**
+- [x] **Step 1: Create the Xcode project (manual, in Xcode) — DONE**
 
-Open Xcode → **File → New → Project… → iOS → App**. Use exactly these settings:
-- Product Name: `IntervalApp`
-- Team: your personal team (or none)
-- Organization Identifier: `com.tomfisher` (or your own reverse-DNS)
-- Interface: **SwiftUI**
-- Language: **Swift**
-- Storage: **None**
-- Uncheck "Include Tests" (IntervalKit's package tests cover the logic; we'll add UI smoke-testing manually in Task 12)
+The Xcode project has already been created and the deployment target set to iOS 17.0. Note the actual on-disk layout (Xcode nests the project one level deeper than its containing folder):
 
-Save it directly into `/Users/tomfisher/interval_app` (Xcode will create `IntervalApp.xcodeproj` and an `IntervalApp/` source folder inside it).
+```
+/Users/tomfisher/interval_app/                              <- git repo root (also holds docs/ and, after Step 2, IntervalKit/)
+└── IntervalApp/                                            <- Xcode project root ("blue folder" in Finder)
+    ├── IntervalApp.xcodeproj
+    └── IntervalApp/                                        <- app target sources
+        ├── IntervalAppApp.swift                            <- the @main entry point (struct IntervalAppApp)
+        ├── ContentView.swift                               <- Xcode's placeholder view; deleted/replaced by Task 10
+        └── Assets.xcassets/
+```
 
-Then select the project in the navigator → the `IntervalApp` target → **General** tab → set **Minimum Deployments → iOS 17.0**.
+All file paths and `xcodebuild`/`plutil` commands later in this plan already account for this nesting — e.g. the app's source files live under `IntervalApp/IntervalApp/...` (project-root `IntervalApp/` + source-folder `IntervalApp/`), and `xcodebuild` is invoked from `/Users/tomfisher/interval_app/IntervalApp` (where `IntervalApp.xcodeproj` lives), while `IntervalKit/` and all `git` commands operate from the outer repo root `/Users/tomfisher/interval_app`.
+
+Xcode also auto-created its own nested `.git` inside `IntervalApp/` — that has been removed, and a single git repo was initialized at the outer repo root `/Users/tomfisher/interval_app` instead (with a `.gitignore` for `.DS_Store`/`xcuserdata`/`DerivedData`/`.build`), so `docs/`, `IntervalApp/`, and `IntervalKit/` are all tracked together. The initial scaffold is already committed as `chore: scaffold IntervalApp Xcode project, add plan and gitignore`.
 
 - [ ] **Step 2: Scaffold the local Swift package from the command line**
 
@@ -96,7 +99,7 @@ In Xcode: select the `IntervalApp` project → **File → Add Package Dependenci
 - [ ] **Step 6: Verify the app target builds with the package linked**
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
   -destination 'generic/platform=iOS Simulator' build
 ```
@@ -107,9 +110,8 @@ Expected: `** BUILD SUCCEEDED **`.
 
 ```bash
 cd /Users/tomfisher/interval_app
-git init
 git add -A
-git commit -m "chore: scaffold IntervalApp Xcode project and IntervalKit package"
+git commit -m "chore: scaffold IntervalKit package and link it to IntervalApp"
 ```
 
 ---
@@ -794,7 +796,7 @@ Select the `IntervalApp` target → **Signing & Capabilities** tab → **+ Capab
 - [ ] **Step 2: Verify the entitlement landed in the generated Info.plist / project settings**
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 plutil -p IntervalApp/Info.plist | grep -A2 UIBackgroundModes || \
   xcodebuild -project IntervalApp.xcodeproj -showBuildSettings -target IntervalApp | grep -i INFOPLIST
 ```
@@ -814,11 +816,11 @@ git commit -m "chore: enable background audio mode for IntervalApp"
 ### Task 7: `ChimePlayer` — play synthesized chimes through a background-capable audio session
 
 **Files:**
-- Create: `IntervalApp/Audio/ChimePlayer.swift`
+- Create: `IntervalApp/IntervalApp/Audio/ChimePlayer.swift`
 
 - [ ] **Step 1: Implement the player**
 
-Create `IntervalApp/Audio/ChimePlayer.swift`:
+Create `IntervalApp/IntervalApp/Audio/ChimePlayer.swift`:
 
 ```swift
 import AVFoundation
@@ -892,7 +894,7 @@ final class ChimePlayer {
 In Xcode, make sure `ChimePlayer.swift` shows "IntervalApp" checked under Target Membership (right panel). Then:
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
   -destination 'generic/platform=iOS Simulator' build
 ```
@@ -903,7 +905,7 @@ Expected: `** BUILD SUCCEEDED **`.
 
 ```bash
 cd /Users/tomfisher/interval_app
-git add IntervalApp/Audio/ChimePlayer.swift
+git add IntervalApp/IntervalApp/Audio/ChimePlayer.swift
 git commit -m "feat: add ChimePlayer for synthesized background-capable chimes"
 ```
 
@@ -914,12 +916,12 @@ git commit -m "feat: add ChimePlayer for synthesized background-capable chimes"
 The entire "0 barrier to entry" promise lives here: five plain-language fields (Total, Warm Up, Cool Down, Work, Rest), a live preview of the computed plan ("57 rounds of 30s work / 10s rest"), and a single **Start** button. No jargon, no extra screens.
 
 **Files:**
-- Create: `IntervalApp/Features/Setup/DurationStepper.swift`
-- Create: `IntervalApp/Features/Setup/WorkoutSetupView.swift`
+- Create: `IntervalApp/IntervalApp/Features/Setup/DurationStepper.swift`
+- Create: `IntervalApp/IntervalApp/Features/Setup/WorkoutSetupView.swift`
 
 - [ ] **Step 1: Create the reusable stepper rows**
 
-Create `IntervalApp/Features/Setup/DurationStepper.swift`:
+Create `IntervalApp/IntervalApp/Features/Setup/DurationStepper.swift`:
 
 ```swift
 import SwiftUI
@@ -965,7 +967,7 @@ struct SecondsStepper: View {
 
 - [ ] **Step 2: Create the setup screen**
 
-Create `IntervalApp/Features/Setup/WorkoutSetupView.swift`:
+Create `IntervalApp/IntervalApp/Features/Setup/WorkoutSetupView.swift`:
 
 ```swift
 import SwiftUI
@@ -1084,7 +1086,7 @@ Note: this view references `ActiveWorkoutView`, which is created in Task 9. The 
 
 ```bash
 cd /Users/tomfisher/interval_app
-git add IntervalApp/Features/Setup/
+git add IntervalApp/IntervalApp/Features/Setup/
 git commit -m "feat: add workout setup screen with live plan preview"
 ```
 
@@ -1095,12 +1097,12 @@ git commit -m "feat: add workout setup screen with live plan preview"
 The screen people actually look at mid-set: huge countdown digits, the current phase name, which round they're on, and Pause/End controls. The view model wires `WorkoutTimerEngine` (logic) to `ChimePlayer` (sound) and refreshes its published display strings every tick.
 
 **Files:**
-- Create: `IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`
-- Create: `IntervalApp/Features/ActiveWorkout/ActiveWorkoutView.swift`
+- Create: `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`
+- Create: `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutView.swift`
 
 - [ ] **Step 1: Create the view model**
 
-Create `IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`:
+Create `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`:
 
 ```swift
 import Combine
@@ -1185,7 +1187,7 @@ final class ActiveWorkoutViewModel: ObservableObject {
 
 - [ ] **Step 2: Create the view**
 
-Create `IntervalApp/Features/ActiveWorkout/ActiveWorkoutView.swift`:
+Create `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutView.swift`:
 
 ```swift
 import SwiftUI
@@ -1267,7 +1269,7 @@ struct ActiveWorkoutView: View {
 - [ ] **Step 3: Build the app and run it in the simulator**
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
   -destination 'platform=iOS Simulator,name=iPhone 16' build
 ```
@@ -1284,7 +1286,7 @@ Expected: `** BUILD SUCCEEDED **`. Then run it from Xcode (▶) on a simulator a
 
 ```bash
 cd /Users/tomfisher/interval_app
-git add IntervalApp/Features/ActiveWorkout/
+git add IntervalApp/IntervalApp/Features/ActiveWorkout/
 git commit -m "feat: add active workout screen wired to timer engine and chimes"
 ```
 
@@ -1293,17 +1295,18 @@ git commit -m "feat: add active workout screen wired to timer engine and chimes"
 ### Task 10: Wire up the app entry point
 
 **Files:**
-- Modify: `IntervalApp/IntervalApp.swift` (the `@main` file Xcode generated in Task 1)
+- Modify: `IntervalApp/IntervalApp/IntervalAppApp.swift` (the `@main` file Xcode generated in Task 1 — struct `IntervalAppApp`)
+- Delete: `IntervalApp/IntervalApp/ContentView.swift` (Xcode's placeholder view; nothing references it once `IntervalAppApp` points at `WorkoutSetupView`)
 
 - [ ] **Step 1: Replace the generated entry point's body**
 
-Open `IntervalApp/IntervalApp.swift` (Xcode names the `@main` struct after the product, so it should already look close to this) and replace its `body` so the app launches straight into setup — no splash, no onboarding, nothing between opening the app and being able to start a workout:
+Open `IntervalApp/IntervalApp/IntervalAppApp.swift` — it currently points at Xcode's placeholder `ContentView()`. Replace its `body` so the app launches straight into setup — no splash, no onboarding, nothing between opening the app and being able to start a workout:
 
 ```swift
 import SwiftUI
 
 @main
-struct IntervalApp: App {
+struct IntervalAppApp: App {
     var body: some Scene {
         WindowGroup {
             WorkoutSetupView()
@@ -1312,10 +1315,12 @@ struct IntervalApp: App {
 }
 ```
 
+Then delete `IntervalApp/IntervalApp/ContentView.swift` (right-click it in Xcode's navigator → Delete → Move to Trash) since nothing references it anymore.
+
 - [ ] **Step 2: Build and launch end to end**
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
   -destination 'platform=iOS Simulator,name=iPhone 16' build
 ```
@@ -1326,7 +1331,8 @@ Expected: `** BUILD SUCCEEDED **`. Run from Xcode — the app should open direct
 
 ```bash
 cd /Users/tomfisher/interval_app
-git add IntervalApp/IntervalApp.swift
+git add IntervalApp/IntervalApp/IntervalAppApp.swift
+git rm IntervalApp/IntervalApp/ContentView.swift
 git commit -m "feat: launch app directly into workout setup"
 ```
 
@@ -1337,12 +1343,12 @@ git commit -m "feat: launch app directly into workout setup"
 This is what lets someone glance at their *locked* phone mid-set and instantly see "Work — 0:14 — Round 8 of 57" without unlocking. It requires its own Xcode target (a Widget Extension), a small `ActivityAttributes` type shared between the app and that extension, and an `ActivityConfiguration` describing the lock-screen / Dynamic Island UI.
 
 **Files:**
-- Create (via Xcode GUI): `IntervalWidgetExtension` target
-- Create: `IntervalApp/Shared/WorkoutActivityAttributes.swift` (shared with the widget extension)
-- Create: `IntervalWidgetExtension/IntervalWidgetBundle.swift`
-- Create: `IntervalWidgetExtension/WorkoutLiveActivity.swift`
-- Create: `IntervalApp/Audio/WorkoutActivityController.swift`
-- Modify: `IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`
+- Create (via Xcode GUI): `IntervalWidgetExtension` target inside the `IntervalApp/` Xcode project
+- Create: `IntervalApp/IntervalApp/Shared/WorkoutActivityAttributes.swift` (shared with the widget extension)
+- Create: `IntervalApp/IntervalWidgetExtension/IntervalWidgetBundle.swift`
+- Create: `IntervalApp/IntervalWidgetExtension/WorkoutLiveActivity.swift`
+- Create: `IntervalApp/IntervalApp/Audio/WorkoutActivityController.swift`
+- Modify: `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`
 
 - [ ] **Step 1: Add the Widget Extension target (manual, in Xcode)**
 
@@ -1362,7 +1368,7 @@ Select the `IntervalApp` target → **Info** tab → add a row to **Custom iOS T
 
 - [ ] **Step 3: Create the shared attributes type**
 
-Create `IntervalApp/Shared/WorkoutActivityAttributes.swift`. In Xcode's File Inspector, check **both** `IntervalApp` and `IntervalWidgetExtension` under Target Membership — both binaries need this type:
+Create `IntervalApp/IntervalApp/Shared/WorkoutActivityAttributes.swift`. In Xcode's File Inspector, check **both** `IntervalApp` and `IntervalWidgetExtension` under Target Membership — both binaries need this type:
 
 ```swift
 import ActivityKit
@@ -1383,7 +1389,7 @@ struct WorkoutActivityAttributes: ActivityAttributes {
 
 - [ ] **Step 4: Replace the generated widget files**
 
-Delete the sample widget Xcode generated inside `IntervalWidgetExtension/` and create `IntervalWidgetExtension/WorkoutLiveActivity.swift`:
+Delete the sample widget Xcode generated inside `IntervalApp/IntervalWidgetExtension/` and create `IntervalApp/IntervalWidgetExtension/WorkoutLiveActivity.swift`:
 
 ```swift
 import ActivityKit
@@ -1437,7 +1443,7 @@ struct WorkoutLiveActivity: Widget {
 }
 ```
 
-Create `IntervalWidgetExtension/IntervalWidgetBundle.swift`:
+Create `IntervalApp/IntervalWidgetExtension/IntervalWidgetBundle.swift`:
 
 ```swift
 import SwiftUI
@@ -1453,7 +1459,7 @@ struct IntervalWidgetBundle: WidgetBundle {
 
 - [ ] **Step 5: Create the activity controller on the app side**
 
-Create `IntervalApp/Audio/WorkoutActivityController.swift`:
+Create `IntervalApp/IntervalApp/Audio/WorkoutActivityController.swift`:
 
 ```swift
 import ActivityKit
@@ -1499,7 +1505,7 @@ final class WorkoutActivityController {
 
 - [ ] **Step 6: Wire the controller into the view model**
 
-Modify `IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`:
+Modify `IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift`:
 
 Add the controller as a stored property, alongside `chimePlayer`:
 
@@ -1553,7 +1559,7 @@ Finally, in `pause()`, end the activity too (a paused workout shouldn't keep sho
 - [ ] **Step 7: Build for the simulator and verify on device**
 
 ```bash
-cd /Users/tomfisher/interval_app
+cd /Users/tomfisher/interval_app/IntervalApp
 xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
   -destination 'platform=iOS Simulator,name=iPhone 16' build
 ```
@@ -1566,9 +1572,9 @@ Live Activities render fully only on a physical device (the simulator's Lock Scr
 
 ```bash
 cd /Users/tomfisher/interval_app
-git add IntervalApp/Shared/ IntervalApp/Audio/WorkoutActivityController.swift \
-        IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift \
-        IntervalWidgetExtension/ IntervalApp.xcodeproj
+git add IntervalApp/IntervalApp/Shared/ IntervalApp/IntervalApp/Audio/WorkoutActivityController.swift \
+        IntervalApp/IntervalApp/Features/ActiveWorkout/ActiveWorkoutViewModel.swift \
+        IntervalApp/IntervalWidgetExtension/ IntervalApp/IntervalApp.xcodeproj
 git commit -m "feat: add Live Activity showing workout progress on Lock Screen"
 ```
 
