@@ -11,7 +11,7 @@ import SwiftUI
 struct IntervalAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WorkoutSetupView()
         }
     }
 }
