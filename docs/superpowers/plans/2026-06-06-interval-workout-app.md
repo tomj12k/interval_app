@@ -131,7 +131,7 @@ xcodebuild -project IntervalApp.xcodeproj -scheme IntervalApp \
 
 Expected: `** BUILD SUCCEEDED **`.
 
-- [ ] **Step 7: Commit (next)**
+- [x] **Step 7: Commit — DONE (commit `6f2351d`)**
 
 ```bash
 cd /Users/tomfisher/interval_app
