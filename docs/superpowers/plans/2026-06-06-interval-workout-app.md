@@ -814,11 +814,11 @@ Wire up the iOS configuration that lets audio (and therefore the running timer) 
 **Files:**
 - Modify (via Xcode GUI): `IntervalApp` target → Signing & Capabilities, Info
 
-- [ ] **Step 1: Add the Background Modes capability (manual, in Xcode)**
+- [x] **Step 1: Add the Background Modes capability (manual, in Xcode) — DONE**
 
 Select the `IntervalApp` target → **Signing & Capabilities** tab → **+ Capability** → **Background Modes** → check **Audio, AirPlay, and Picture in Picture**.
 
-- [ ] **Step 2: Verify the entitlement landed in the generated Info.plist / project settings**
+- [x] **Step 2: Verify the entitlement landed in the generated Info.plist / project settings — DONE (`UIBackgroundModes` = `["audio"]` confirmed in `IntervalApp/IntervalApp/Info.plist`)**
 
 ```bash
 cd /Users/tomfisher/interval_app/IntervalApp
@@ -828,7 +828,7 @@ plutil -p IntervalApp/Info.plist | grep -A2 UIBackgroundModes || \
 
 Expected: `UIBackgroundModes` containing `audio` (Xcode 15+ projects store this directly in `Info.plist` generated from build settings — if you don't see a standalone `Info.plist`, open the target's **Info** tab in Xcode and confirm "Background Modes — Audio, AirPlay, and Picture in Picture" is listed under **Custom iOS Target Properties**).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit — DONE (commit `cc5a567`)**
 
 ```bash
 cd /Users/tomfisher/interval_app
